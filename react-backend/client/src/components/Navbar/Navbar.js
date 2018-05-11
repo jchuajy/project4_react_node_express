@@ -7,17 +7,11 @@ class MainNavbar extends Component {
         super();
         this.state = {users: []};
       };
-    
-      componentDidMount() {
-        fetch('/users')
-          .then(res => res.json())
-          .then(users => this.setState({ users }));
-      };
-    
+
       render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                  <a className="navbar-brand" href="/home"><img src="/logo2.png" className="brandLogo"/></a>
+                  <a className="navbar-brand" href="/"><img src="/logo2.png" className="brandLogo"/></a>
                   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                   </button>

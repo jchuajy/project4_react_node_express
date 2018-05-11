@@ -16,13 +16,13 @@ class Homepage extends Component {
     
       render() {
         return (
-            <div class="jumbotron">
-                        <h1 class="display-4">Re-think Delivery.</h1>
-                        <p class="lead">Your best and fastest way to send items overseas</p>
-                        <hr class="my-4" />
+            <div className="jumbotron">
+                        <h1 className="display-4">Re-think Delivery.</h1>
+                        <p className="lead">Your best and fastest way to send items overseas</p>
+                        <hr className="my-4" />
                         <p>Now serving Singapore and Thailand</p>
-                        <p class="lead">
-                              <a class="btn btn-primary btn-lg" href="#" role="button">Deliver Now</a>
+                        <p className="lead">
+                              <a className="btn btn-primary btn-lg" href="#" role="button">Deliver Now</a>
                         </p>
             </div>
           
