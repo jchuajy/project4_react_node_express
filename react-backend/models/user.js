@@ -39,8 +39,8 @@ module.exports = (dbPool) => {
 
                         // execute query
                         dbPool.query(firstQueryString, firstValues, (error, firstQueryResult) => {
-                              let queryString = 'SELECT * from users WHERE name = $1';
-                              let values = [user.username];
+                              let queryString = 'SELECT * from users WHERE email = $1';
+                              let values = [user.email];
 
                               dbPool.query(queryString, values, (error, queryResult) => {
                                     // invoke callback function with results after query has executed
@@ -52,7 +52,7 @@ module.exports = (dbPool) => {
             },
 
             findLogin: (user, callback) => {
-                  console.log("this is findlogin", user)
+
                   //set queryString
                   let queryString = "SELECT * FROM users WHERE email = $1";
                   let values = [user.email];
