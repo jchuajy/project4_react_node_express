@@ -45,7 +45,45 @@ const createNewUser = (db) => {
                   }
 
                   //respond with something
-                  response.send("done")
+                  response.json({message: 'user created'})
+            });
+      };
+};
+
+const loginUser = (db) => {
+      return (request, response) => {
+            console.log("this is loginUser (controller)", request.body);
+            //use user model method "findLogin" to check if user information is stored on db
+            db.userDB.findLogin(request.body, (error, queryResult, emailCheck, passwordCheck, userType, userName, userId) => {
+                  //error logs
+                  if (error) {
+                        console.error('error logging in:', error);
+                        // response.sendStatus(500);
+                        response.json({message: "yo"});
+                  }
+                  //if usernameCheck fails
+                  if (emailCheck === false) {
+
+                        console.log("No email found!");
+                        // response.redirect("/users/login")
+                        response.json({message: "yo"});
+                        //if passwordCheck fails
+                  } else if (passwordCheck === false) {
+                        console.log("Wrong password!");
+                        // response.redirect("/users/login")
+                        response.json({message: "yo"});
+                  } else {
+                        //if both check passes
+                        console.log('User found!');
+
+                        // drop cookies to indicate user's logged in status and username
+                        response.cookie('loggedIn', true);
+                        response.cookie('username', userName);
+                        response.cookie("userId", userId);
+                        response.cookie("userType", userType);
+                        // redirect to home page after creation
+                        response.json({message: "success!"});
+                  };
             });
       };
 };
@@ -59,8 +97,8 @@ const createNewUser = (db) => {
 
 module.exports = {
       // newUserForm,
-      createNewUser //,
+      createNewUser,
       // goToLogin,
-      // loginUser,
+      loginUser //,
       // logoutUser
 }

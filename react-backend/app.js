@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const db = require('./db');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 

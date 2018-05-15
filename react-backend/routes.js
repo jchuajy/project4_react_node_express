@@ -8,17 +8,32 @@
  * to be imported (using `require(...)`) in `index.js`.
  */
 
-const users = require('./controllers/user')
+const users = require('./controllers/user');
 
 
 module.exports = (app, db) => {
    
       /*
        *  =========================================
+       *  General
+       *  =========================================
+       */
+
+
+
+
+
+
+
+      /*
+       *  =========================================
        *  Users
        *  =========================================
        */
       // CRUD users
+
+      //log in user
+      app.post('/users/login', users.loginUser(db));
       app.post('/users/new', users.createNewUser(db));
       // app.post('/users', users.create);
     

@@ -49,6 +49,49 @@ module.exports = (dbPool) => {
                               });
                         });
                   });
+            },
+
+            findLogin: (user, callback) => {
+                  console.log("this is findlogin", user)
+                  //set queryString
+                  let queryString = "SELECT * FROM users WHERE email = $1";
+                  let values = [user.email];
+                  //run query
+                  console.log(values);
+                  dbPool.query(queryString, values, (err, queryResult) => {
+                        if (err) console.error('error!', err);
+
+                        //declares a emailCheck to let controller know what kind of response it should send
+                        let emailCheck = false;
+                        //declares the password check in order to pass the parameter to callback
+                        let passwordCheck = false;
+                        let userType = "";
+                        let email = "";
+                        let userId = "";
+
+                        if (queryResult.rows.length < 1) {
+                              callback(err, queryResult, emailCheck, passwordCheck, userType, email, userId);
+                              return;
+                        }
+                        bcrypt.compare(user.password, queryResult.rows[0].password, (err2, res) => {
+                              if (res) {
+                                    const emailCheck = true;
+                                    const passwordCheck = true;
+
+                                    //check for userType, email
+                                    userType = queryResult.rows[0].usertype;
+                                    email = queryResult.rows[0].name;
+                                    userId = queryResult.rows[0].id
+
+                                    callback(err, queryResult, emailCheck, passwordCheck, userType, email, userId);
+
+                              } else {
+                                    const emailCheck = true;
+
+                                    callback(err, queryResult, emailCheck, passwordCheck, userType, email, userId);
+                              };
+                        });
+                  });
             }
 
 
