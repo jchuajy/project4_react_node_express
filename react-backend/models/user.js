@@ -23,31 +23,53 @@ const bcrypt = require('bcrypt');
 
 module.exports = (dbPool) => {
       return {
+
+            //this is a terrible way to do unique email validation. Please fix when you have the time
+            //It creates 3 pool sessions for a singer user creation.
+            //Make the email field unique in the db, and parse the error obtained to the front end for validation
             createNewUser: (user, callback) => {
                   // run user input password through bcrypt to obtain hashed password
                   bcrypt.hash(user.password, 1, (err, hashed) => {
                         if (err) console.error('error!', err);
 
-                        // set up query
-                        let firstQueryString = 'INSERT INTO users (name, email, password, type) VALUES ($1, $2, $3, $4)';
-                        let firstValues = [
-                              user.name,
-                              user.email,
-                              hashed,
-                              "customer"
-                        ];
+                        //check if email already exists
+                        let emailCheckQueryString = "SELECT * from users WHERE email = $1";
+                        let emailCheckValues = [user.email];
 
-                        // execute query
-                        dbPool.query(firstQueryString, firstValues, (error, firstQueryResult) => {
-                              let queryString = 'SELECT * from users WHERE email = $1';
-                              let values = [user.email];
+                        dbPool.query(emailCheckQueryString, emailCheckValues, (error, emailCheckQueryResult) => {
 
-                              dbPool.query(queryString, values, (error, queryResult) => {
-                                    // invoke callback function with results after query has executed
-                                    callback(error, queryResult);
+                              if (emailCheckQueryResult.rowCount >= 1) {
+                                    //return queryresult as string if email already exists
+                                    callback(error, "Email already exists");
+                              } else {
 
-                              });
-                        });
+                                    // set up insert
+                                    let firstQueryString = 'INSERT INTO users (name, email, password, type) VALUES ($1, $2, $3, $4)';
+                                    let firstValues = [
+                                          user.name,
+                                          user.email,
+                                          hashed,
+                                          "customer"
+                                    ];
+
+                                    // execute query
+                                    dbPool.query(firstQueryString, firstValues, (error, firstQueryResult) => {
+                                          let queryString = 'SELECT * from users WHERE email = $1';
+                                          let values = [user.email];
+
+                                          dbPool.query(queryString, values, (error, queryResult) => {
+                                                // invoke callback function with results after query has executed
+                                                callback(error, queryResult);
+
+                                          });
+                                    });
+
+                              }
+
+
+                        })
+
+
                   });
             },
 
@@ -57,7 +79,6 @@ module.exports = (dbPool) => {
                   let queryString = "SELECT * FROM users WHERE email = $1";
                   let values = [user.email];
                   //run query
-                  console.log(values);
                   dbPool.query(queryString, values, (err, queryResult) => {
                         if (err) console.error('error!', err);
 

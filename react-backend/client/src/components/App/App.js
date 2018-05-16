@@ -5,11 +5,15 @@ import Users from '../Users/Users';
 import './App.css';
 import { Route, Link } from "react-router-dom";
 
+
 class App extends Component {
 
   constructor() {
     super();
-    this.state = {users: []};
+    this.state = {
+                  currentUser: "",
+                  loginStatus: ""
+                  };
     // this.showUsers = this.showUsers.bind( this );
   };
 
@@ -25,6 +29,20 @@ class App extends Component {
   //                     });
                       
   // };
+
+  // sets state of current user
+  setUser(user) {
+
+    this.setState({currentUser: user});
+  };
+
+  setLoginStatus(status) {
+
+    this.setState({loginStatus: status});
+  };
+
+
+
 
   render() {
     // const mapped = this.state.users.map(item => {
@@ -58,3 +76,4 @@ class App extends Component {
 }
 
 export default App;
+

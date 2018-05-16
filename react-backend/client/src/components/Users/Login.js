@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './Login.css';
 import './Loginjs.js'
+import { withCookies, Cookies } from 'react-cookie';
+import { instanceOf } from 'prop-types';
 
 class Login extends Component {
 
@@ -9,11 +11,23 @@ class Login extends Component {
             this.emailChangeHandler = this.emailChangeHandler.bind( this );
             this.passwordChangeHandler = this.passwordChangeHandler.bind( this );
             this.handleSubmit = this.handleSubmit.bind( this );
+            this.showLoginMessage = this.showLoginMessage.bind( this );
             this.state= {
                   formEmail: "",
-                  formPassword: ""
+                  formPassword: "",
+                  currentUser: "",
+                  loginMessage: ""
                 };
       };
+
+      static propTypes = {
+            cookies: instanceOf(Cookies).isRequired
+          };
+        
+          componentWillMount() {
+            const { cookies } = this.props;
+         
+          }
     
       emailChangeHandler(event){
             this.setState({formEmail:event.target.value});
@@ -25,7 +39,14 @@ class Login extends Component {
             // console.log("change", event.target.value);
       };
 
+      showLoginMessage() {
+            if (this.state.loginMessage != "") {
+                  return <div className="alert alert-danger" role="alert">{this.state.loginMessage}</div>
+            };
+      };
+
       handleSubmit(event){ 
+            const { cookies } = this.props;
             event.preventDefault();
             console.log("handle submit fired")
             let bodyJSON = {
@@ -37,12 +58,24 @@ class Login extends Component {
                         headers: new Headers({'Content-Type':'application/json'}),
                         
                         body: JSON.stringify(bodyJSON)
-            }).then(res => console.log(res))
+            }).then(res => {
+                  return res.json();
+            }).then(data => {
+                  console.log(data)
+                  if (data.loginSuccess == true) {
+                        cookies.set('token', data.token, { path: '/' });
+                        this.setState({loginMessage: ""});
+                  } else {
+                        this.setState({loginMessage: data.message});
+                  }
+                  
+            })
             .catch(error => console.log(error));
       };
 
     
       render() {
+            const { name } = this.state;
         return (
 
             <div className="text-center">
@@ -52,6 +85,7 @@ class Login extends Component {
                               <div className="login-form-main-message"></div>
                               <div className="main-login-form">
                                     <div className="login-group">
+                                          {this.showLoginMessage()}
                                           <div className="form-group">
                                                 <label htmlFor="lg_email" className="sr-only">Email</label>
                                                 <input type="text" className="form-control" id="lg_email" name="lg_email" placeholder="email" onChange={this.emailChangeHandler} />
@@ -79,4 +113,4 @@ class Login extends Component {
       }
     }
     
-    export default Login;
+    export default withCookies(Login);
