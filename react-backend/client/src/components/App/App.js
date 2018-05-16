@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MainNavbar from '../Navbar/Navbar';
 import Homepage from '../Homepage/Homepage';
 import Users from '../Users/Users';
+import NewDelivery from '../Deliveries/NewDelivery';
 import './App.css';
 import { Route, Link } from "react-router-dom";
 
@@ -67,6 +68,13 @@ class App extends Component {
           exact
           render={() => (
             <Homepage />
+          )}
+        />
+        <Route
+          path='/deliveries/new'
+          exact
+          render={() => (
+            <NewDelivery />
           )}
         />
         </div>

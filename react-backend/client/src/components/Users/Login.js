@@ -22,12 +22,12 @@ class Login extends Component {
 
       static propTypes = {
             cookies: instanceOf(Cookies).isRequired
-          };
+      };
         
-          componentWillMount() {
+      componentWillMount() {
+
             const { cookies } = this.props;
-         
-          }
+      }
     
       emailChangeHandler(event){
             this.setState({formEmail:event.target.value});

@@ -22,7 +22,7 @@ class Homepage extends Component {
                         <hr className="my-4" />
                         <p>Now serving Singapore and Thailand</p>
                         <p className="lead">
-                              <a className="btn btn-primary btn-lg" href="#" role="button">Deliver Now</a>
+                              <a className="btn btn-primary btn-lg" href="/deliveries/new" role="button">Deliver Now</a>
                         </p>
             </div>
           
