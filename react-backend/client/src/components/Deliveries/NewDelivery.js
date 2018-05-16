@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
 import './NewDelivery.css';
-import './NewDeliveryjs.js'
+import './NewDeliveryjs.js';
+import styles from './NewDelivery.css';
+import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
 class NewDelivery extends Component {
 
       constructor() {
             super();
+            this.fromChangeHandler = this.fromChangeHandler.bind( this );
+            this.state= {
+                  position: null,
+                  fromAddress: ""
+            };
       };
+
+      fromChangeHandler(event) {
+            this.setState({fromAddress:event.target.value});
+            const { google, map } = this.props;
+            const fromAutoComplete = new google.maps.places.Autocomplete(document.getElementById('fromAddress'));
+
+      };
+
     
       // emailChangeHandler(event){
       //       this.setState({formEmail:event.target.value});
@@ -27,15 +42,35 @@ class NewDelivery extends Component {
 
     
       render() {
-
+            const { position } = this.state;
         return (
-            
-            
-
-
-
+      
             <div className="container">
                 
+
+                              <input
+                              placeholder="Enter a location"
+                              type="text" 
+                              onChange={this.fromChangeHandler}
+                              id="fromAddress"
+                              />
+
+
+                        {/* <div>
+                              <div>Lat: {position && position.lat()}</div>
+                              <div>Lng: {position && position.lng()}</div>
+                        </div> */}
+
+
+
+
+
+
+
+
+
+
+                              
 
                   {/* welcome header */}
                   <div class="py-5 text-center">
@@ -262,5 +297,6 @@ class NewDelivery extends Component {
       }
     }
 
-
-    export default NewDelivery;
+    export default GoogleApiWrapper({
+      apiKey: ('AIzaSyBzqaIAJy2NlzQqOu2FM-ts3oMxrGaQd38')
+    })(NewDelivery);
