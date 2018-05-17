@@ -9,7 +9,7 @@
  */
 
 const users = require('./controllers/user');
-
+const delivery = require('./controllers/delivery');
 
 module.exports = (app, db) => {
    
@@ -48,5 +48,5 @@ module.exports = (app, db) => {
        *  =========================================
        */
     
-
+    app.post('/deliveries/new', delivery.createNewDelivery(db));
     };

@@ -12,7 +12,7 @@
 const pg = require('pg');
 const userDB = require('./models/user');
 // const productDB = require('./models/product');
-// const orderDB = require("./models/order");
+const deliveryDB = require("./models/delivery");
 
 // inside of db.js
 
@@ -58,7 +58,7 @@ pool.on('error', (err) => {
 
 module.exports = {
   pool: pool,
-  userDB: userDB(pool) //,
+  userDB: userDB(pool),
 //   productDB: productDB(pool),
-//   orderDB: orderDB(pool)
+  deliveryDB: deliveryDB(pool)
 }
