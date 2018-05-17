@@ -21,16 +21,30 @@ const jwt = require('jsonwebtoken');
 
 const createNewDelivery = (db) => {
       return (request, response) => {
-            console.log("controller hit")
+            
             db.deliveryDB.createNewDelivery(request.body, (error, queryResult) => {
                   if (queryResult.rowCount >= 1) {
                         response.json({message: "Order created!"});
                   } else {
-                        response.json({message: "There was a problem with creating your delivery. Please try again!"})
+                        response.json({message: "There was a problem with creating your delivery. Please try again!"});
                   }
             });
       };
 };
+
+const getAllDeliveries = (db) => {
+      return (request, response) => {
+            console.log("controller hit")
+            db.deliveryDB.getAllDeliveries(request, (error, queryResult) => {
+                  if (queryResult.rowCount >= 1) {
+                        response.json(queryResult.rows);
+                  } else {
+                        response.json({message: "There was a problem getting the information. Please try again!"});
+                  }
+            });
+      };
+};
+
 
 
 /**
@@ -40,8 +54,9 @@ const createNewDelivery = (db) => {
  */
 
 module.exports = {
-      // newUserForm,
-      createNewDelivery
+
+      createNewDelivery,
+      getAllDeliveries
       // goToLogin,
       // logoutUser
 }

@@ -18,6 +18,9 @@ class MainNavbar extends Component {
                   <div className="collapse navbar-collapse" id="navbarText">
                         <ul className="navbar-nav mr-auto">
                               <li className="nav-item active">
+                                    <a className="nav-link" href="/deliveries">All Deliveries</a>
+                              </li>
+                              <li className="nav-item active">
                                     <a className="nav-link" href="/deliveries/new">New Delivery</a>
                               </li>
                               <li className="nav-item active">

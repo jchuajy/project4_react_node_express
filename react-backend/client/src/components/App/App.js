@@ -3,6 +3,7 @@ import MainNavbar from '../Navbar/Navbar';
 import Homepage from '../Homepage/Homepage';
 import Users from '../Users/Users';
 import NewDelivery from '../Deliveries/NewDelivery';
+import AllDeliveries from '../Deliveries/AllDeliveries';
 import './App.css';
 import { Route, Link } from "react-router-dom";
 
@@ -75,6 +76,13 @@ class App extends Component {
           exact
           render={() => (
             <NewDelivery />
+          )}
+        />
+        <Route
+          path='/deliveries'
+          exact
+          render={() => (
+            <AllDeliveries />
           )}
         />
         </div>

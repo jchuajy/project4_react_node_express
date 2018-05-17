@@ -49,4 +49,5 @@ module.exports = (app, db) => {
        */
     
     app.post('/deliveries/new', delivery.createNewDelivery(db));
+    app.get('/deliveries', delivery.getAllDeliveries(db));
     };
