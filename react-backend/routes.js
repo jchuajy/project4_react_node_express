@@ -35,6 +35,7 @@ module.exports = (app, db) => {
       //log in user
       app.post('/users/login', users.loginUser(db));
       app.post('/users/new', users.createNewUser(db));
+      app.get('/users/couriers', users.getAllCouriers(db));
       // app.post('/users', users.create);
     
       // // Authentication
@@ -47,7 +48,7 @@ module.exports = (app, db) => {
        *  Deliveries
        *  =========================================
        */
-    
+    app.get('/deliveries/unassigned', delivery.getAllUnassignedDeliveries(db));
     app.post('/deliveries/new', delivery.createNewDelivery(db));
     app.get('/deliveries', delivery.getAllDeliveries(db));
     };

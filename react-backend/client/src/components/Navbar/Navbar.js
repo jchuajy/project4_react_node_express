@@ -21,6 +21,9 @@ class MainNavbar extends Component {
                                     <a className="nav-link" href="/deliveries">All Deliveries</a>
                               </li>
                               <li className="nav-item active">
+                                    <a className="nav-link" href="/deliveries/unassigned">Unassigned Deliveries</a>
+                              </li>
+                              <li className="nav-item active">
                                     <a className="nav-link" href="/deliveries/new">New Delivery</a>
                               </li>
                               <li className="nav-item active">

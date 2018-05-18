@@ -113,6 +113,20 @@ module.exports = (dbPool) => {
                               };
                         });
                   });
+            },
+
+            getAllCouriers: (request, callback) => {
+                  
+                  //declare queryString
+                  let queryString = "SELECT * FROM users WHERE type = 'courier'";
+                  
+                  // execute query
+                  dbPool.query(queryString, (error, queryResult) => {
+                        console.log("queryString", queryResult)
+                        // invoke callback function with results after query has executed
+                        callback(error, queryResult);
+                  });
+
             }
 
 

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
 
-class AllDeliveries extends Component {
+class UnassignedDeliveries extends Component {
 
       constructor() {
             super();
@@ -13,7 +13,8 @@ class AllDeliveries extends Component {
             // this.handleSubmit = this.handleSubmit.bind( this );
             // this.showLoginMessage = this.showLoginMessage.bind( this );
             this.state= {
-                  allDeliveries: []
+                  unassignedDeliveries: [],
+                  couriers: []
                 };
       };
 
@@ -28,7 +29,8 @@ class AllDeliveries extends Component {
       };
 
       componentDidMount() {
-            fetch('/deliveries')
+            
+            fetch('/deliveries/unassigned')
             .then(
             response => {
                   if (response.status !== 200) {
@@ -40,7 +42,8 @@ class AllDeliveries extends Component {
 
                   // Examine the text in the response
                   response.json().then(data => {
-                        this.setState({allDeliveries: data});
+                        
+                        this.setState({unassignedDeliveries: data});
                   });
             }
             )
@@ -48,7 +51,54 @@ class AllDeliveries extends Component {
                   console.log('Fetch Error', err);
             });
 
-      }
+            fetch('/users/couriers')
+            .then(
+            response => {
+                  if (response.status !== 200) {
+                        console.log('Looks like there was a problem. Status Code: ' + response.status);
+                        return;
+                  }
+
+                  // Examine the text in the response
+                  response.json().then(data => {
+                        
+                        this.setState({couriers: data});
+                  });
+            }
+            )
+            .catch(function(err) {
+                  console.log('Fetch Error', err);
+            });
+
+      };
+
+      // courierChangeHandler(event) {
+
+      //       event.preventDefault();
+            
+      //       let bodyJSON = {
+      //             "email": this.state.formEmail,
+      //             "password": this.state.formPassword
+      //       }
+      //       fetch('/users/login', {
+      //                   method: 'POST',
+      //                   headers: new Headers({'Content-Type':'application/json'}),
+                        
+      //                   body: JSON.stringify(bodyJSON)
+      //       }).then(res => {
+      //             return res.json();
+      //       }).then(data => {
+      //             console.log(data)
+      //             if (data.loginSuccess == true) {
+      //                   cookies.set('token', data.token, { path: '/' });
+      //                   this.setState({loginMessage: ""});
+      //             } else {
+      //                   this.setState({loginMessage: data.message});
+      //             }
+                  
+      //       })
+      //       .catch(error => console.log(error));
+      // }
     
       // emailChangeHandler(event){
       //       this.setState({formEmail:event.target.value});
@@ -98,7 +148,12 @@ class AllDeliveries extends Component {
       render() {
             // const { name } = this.state;
             let counter = 0;
-            let deliveryListItems = this.state.allDeliveries.map(item => {
+            let courierList = this.state.couriers.map(item => {
+                  return (
+                        <option>{item.name}</option>
+                  )
+            })
+            let deliveryListItems = this.state.unassignedDeliveries.map(item => {
                   counter = counter + 1;
                   return (
                         <tr>
@@ -106,8 +161,13 @@ class AllDeliveries extends Component {
                               <td>{item.delivery_number}</td>
                               <td>{item.pickup_time}</td>
                               <td>{item.delivery_time}</td>
-                              <td>{item.assigned_courier}</td>
                               <td>{item.status}</td>
+                              <td>
+                                    <select>
+                                          <option selected>...</option>
+                                          {courierList}
+                                    </select>
+                              </td>
                         </tr>
 
                   )
@@ -115,7 +175,7 @@ class AllDeliveries extends Component {
         return (
 
             <div>
-                  <h1>All Deliveries</h1>
+                  <h1>Unassigned Deliveries</h1>
 
                   <table className="table table-sm table-light table-bordered table-hover table-striped">
                         <thead className="thead-dark">
@@ -124,8 +184,8 @@ class AllDeliveries extends Component {
                               <th scope="col">Delivery No.</th>
                               <th scope="col">Pickup Time</th>
                               <th scope="col">Delivery Time</th>
-                              <th scope="col">Assigned Courier</th>
                               <th scope="col">Status</th>
+                              <th scope="col">Assign A Courier</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -140,4 +200,4 @@ class AllDeliveries extends Component {
       }
     }
     
-    export default withCookies(AllDeliveries);
+    export default withCookies(UnassignedDeliveries);

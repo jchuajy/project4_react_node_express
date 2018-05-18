@@ -48,7 +48,7 @@ class Login extends Component {
       handleSubmit(event){ 
             const { cookies } = this.props;
             event.preventDefault();
-            console.log("handle submit fired")
+            
             let bodyJSON = {
                   "email": this.state.formEmail,
                   "password": this.state.formPassword

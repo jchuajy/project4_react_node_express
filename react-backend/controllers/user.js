@@ -110,6 +110,19 @@ const loginUser = (db) => {
 };
 
 
+const getAllCouriers = (db) => {
+      return (request, response) => {
+            
+            db.userDB.getAllCouriers(request, (error, queryResult) => {
+                  if (queryResult.rowCount >= 1) {
+                        response.json(queryResult.rows);
+                  } else {
+                        response.json({message: "There was a problem getting the information. Please try again!"});
+                  };
+            });
+      };
+};
+
 /**
  * ===========================================
  * Export controller functions as a module
@@ -119,7 +132,7 @@ const loginUser = (db) => {
 module.exports = {
       // newUserForm,
       createNewUser,
-      // goToLogin,
+      getAllCouriers,
       loginUser //,
       // logoutUser
 }
