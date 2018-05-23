@@ -159,8 +159,8 @@ class UnassignedDeliveries extends Component {
                         <tr>
                               <th scope="row">{counter}</th>
                               <td>{item.delivery_number}</td>
-                              <td>{item.pickup_time}</td>
-                              <td>{item.delivery_time}</td>
+                              <td>{item.schedules_name}</td>
+                              <td>{item.schedules2_name}</td>
                               <td>{item.status}</td>
                               <td>
                                     <select>

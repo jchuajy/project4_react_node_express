@@ -27,6 +27,9 @@ class MainNavbar extends Component {
                                     <a className="nav-link" href="/deliveries/new">New Delivery</a>
                               </li>
                               <li className="nav-item active">
+                                    <a className="nav-link" href="/schedules">My Schedules</a>
+                              </li>
+                              <li className="nav-item active">
                                     <a className="nav-link" href="/users/login">Login</a>
                               </li>
                         </ul>

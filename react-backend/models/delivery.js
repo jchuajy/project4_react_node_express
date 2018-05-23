@@ -46,11 +46,11 @@ module.exports = (dbPool) => {
             getAllDeliveries: (request, callback) => {
                   
                   //declare queryString
-                  let queryString = "SELECT * FROM deliveries";
+                  let queryString = "SELECT deliveries.delivery_number, deliveries.pickup_time, deliveries.delivery_time, deliveries.assigned_courier, users.name, schedules.name as schedules_name, sc.name as schedules2_name,deliveries.status FROM deliveries LEFT OUTER JOIN users ON deliveries.assigned_courier::integer = users.id LEFT OUTER JOIN schedules ON deliveries.pickup_time::integer = schedules.id LEFT OUTER JOIN schedules sc ON deliveries.delivery_time::integer = sc.id";
 
                   // execute query
                   dbPool.query(queryString, (error, queryResult) => {
-      
+                        
                         // invoke callback function with results after query has executed
                         callback(error, queryResult);
                   });
@@ -60,7 +60,7 @@ module.exports = (dbPool) => {
             getAllUnassignedDeliveries: (request, callback) => {
                   
                   //declare queryString
-                  let queryString = "SELECT * FROM deliveries WHERE assigned_courier IS NULL";
+                  let queryString = "SELECT deliveries.delivery_number, deliveries.pickup_time, deliveries.delivery_time, deliveries.assigned_courier, users.name, schedules.name as schedules_name, sc.name as schedules2_name,deliveries.status FROM deliveries LEFT OUTER JOIN users ON deliveries.assigned_courier::integer = users.id LEFT OUTER JOIN schedules ON deliveries.pickup_time::integer = schedules.id LEFT OUTER JOIN schedules sc ON deliveries.delivery_time::integer = sc.id WHERE deliveries.assigned_courier IS NULL";
 
                   // execute query
                   dbPool.query(queryString, (error, queryResult) => {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './NewDelivery.css';
 import './NewDeliveryjs.js';
-// import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import {GoogleApiWrapper} from 'google-maps-react';
 
 class NewDelivery extends Component {
 
@@ -11,28 +11,24 @@ class NewDelivery extends Component {
             this.fromEmailChangeHandler = this.fromEmailChangeHandler.bind( this );
             this.fromPasswordChangeHandler = this.fromPasswordChangeHandler.bind( this );
             this.fromContactChangeHandler = this.fromContactChangeHandler.bind( this );
-            this.pickUpAddressChangeHandler = this.pickUpAddressChangeHandler.bind( this );
-            this.pickUpCountryChangeHandler = this.pickUpCountryChangeHandler.bind( this );
-            this.pickUpZipChangeHandler = this.pickUpZipChangeHandler.bind( this );
             this.pickUpTimeChangeHandler = this.pickUpTimeChangeHandler.bind( this );
 
             this.toNameChangeHandler = this.toNameChangeHandler.bind( this );
             this.toEmailChangeHandler = this.toEmailChangeHandler.bind( this );
             this.toPasswordChangeHandler = this.toPasswordChangeHandler.bind( this );
             this.toContactChangeHandler = this.toContactChangeHandler.bind( this );
-            this.deliveryAddressChangeHandler = this.deliveryAddressChangeHandler.bind( this );
-            this.deliveryCountryChangeHandler = this.deliveryCountryChangeHandler.bind( this );
-            this.deliveryZipChangeHandler = this.deliveryZipChangeHandler.bind( this );
             this.deliveryTimeChangeHandler = this.deliveryTimeChangeHandler.bind( this );
 
             this.handleSubmit = this.handleSubmit.bind( this );
+
+            this.pickupAutoComplete = this.pickupAutoComplete.bind( this );
+            this.deliveryAutoComplete = this.deliveryAutoComplete.bind( this );
 
             this.state = {
                   fromName: "",
                   fromEmail: "",
                   fromPassword: "",
                   fromContact: "",
-                  pickUpAddress: "",
                   pickUpCountry: "",
                   pickUpZip: "",
                   pickUpTime: "",
@@ -40,26 +36,66 @@ class NewDelivery extends Component {
                   toEmail: "",
                   toPassword: "",
                   toContact: "",
-                  deliveryAddress: "",
                   deliveryCountry: "",
                   deliveryZip: "",
-                  deliveryTime: ""
+                  deliveryTime: "",
+                  pickupAddress: null,
+                  deliveryAddress: null
             }
       };
 
+      componentDidMount() {
+            this.pickupAutoComplete();
+            this.deliveryAutoComplete();
+      };
 
-      // fromChangeHandler(event) {
+      pickupAutoComplete() {
+            let { google } = this.props;
+            const options = {
+                  types: ['address'],
+                  componentRestrictions: {'country': ['sg', 'th']}
+            };
+        
+        
+            let pickupAutocomplete = new google.maps.places.Autocomplete(this.pickupAutocomplete, options);
+        
+            pickupAutocomplete.addListener('place_changed', () => {
+                  let pickupPlace = pickupAutocomplete.getPlace();
             
-      //       this.setState({fromAddress:event.target.value});
-      //       const { google, map } = this.props;
-      //       const options = {
-      //             types: ['address'],
-      //             componentRestrictions: {'country': ['sg', 'th']}
-      //       }
-      //       this.fromAutoComplete = new google.maps.places.Autocomplete(document.getElementById('fromAddress'), options);
-      //       this.fromAutoComplete.addListener('place_changed', this.getFromAddress);
+                  if (!pickupPlace.geometry) return;
+                  
+                  let concatPickupAddress = pickupPlace.address_components[0].long_name + ", " + pickupPlace.address_components[1].long_name + ", " + pickupPlace.address_components[2].long_name + ", " + pickupPlace.address_components[3].long_name
 
-      // };
+                  this.setState({ pickUpAddress: concatPickupAddress });
+                  this.setState({ pickUpCountry: pickupPlace.address_components[4].long_name});
+                  this.setState({ pickUpZip: pickupPlace.address_components[5].long_name});
+
+            });
+      };
+      
+
+      deliveryAutoComplete() {
+            let { google } = this.props;
+            const options = {
+                  types: ['address'],
+                  componentRestrictions: {'country': ['sg', 'th']}
+            };
+        
+            let deliveryAutocomplete = new google.maps.places.Autocomplete(this.deliveryAutocomplete, options);
+        
+            deliveryAutocomplete.addListener('place_changed', () => {
+                  let deliveryPlace = deliveryAutocomplete.getPlace();
+            
+                  if (!deliveryPlace.geometry) return;
+                  
+                  let concatDeliveryAddress = deliveryPlace.address_components[0].long_name + ", " + deliveryPlace.address_components[1].long_name + ", " + deliveryPlace.address_components[2].long_name + ", " + deliveryPlace.address_components[3].long_name
+
+                  this.setState({ deliveryAddress: concatDeliveryAddress });
+                  this.setState({ deliveryCountry: deliveryPlace.address_components[4].long_name});
+                  this.setState({ deliveryZip: deliveryPlace.address_components[5].long_name});
+            });
+      };
+
 
       fromNameChangeHandler(event){
             this.setState({fromName: event.target.value});
@@ -78,23 +114,6 @@ class NewDelivery extends Component {
 
       fromContactChangeHandler(event){
             this.setState({fromContact: event.target.value});
-            // console.log("change", event.target.value);
-      };
-
-      pickUpAddressChangeHandler(event){
-            this.setState({pickUpAddress: event.target.value});
-            // console.log("change", event.target.value);
-      };
-
-      pickUpCountryChangeHandler(event){
-
-            this.setState({pickUpCountry: event.target.value});
-            // console.log("change", event.target.value);
-      };
-
-      pickUpZipChangeHandler(event){
-
-            this.setState({pickUpZip: event.target.value});
             // console.log("change", event.target.value);
       };
 
@@ -124,22 +143,6 @@ class NewDelivery extends Component {
             // console.log("change", event.target.value);
       };
 
-      deliveryAddressChangeHandler(event){
-            this.setState({deliveryAddress: event.target.value});
-            // console.log("change", event.target.value);
-      };
-
-      deliveryCountryChangeHandler(event){
-
-            this.setState({deliveryCountry: event.target.value});
-            // console.log("change", event.target.value);
-      };
-
-      deliveryZipChangeHandler(event){
-
-            this.setState({deliveryZip: event.target.value});
-            // console.log("change", event.target.value);
-      };
 
       deliveryTimeChangeHandler(event){
 
@@ -173,7 +176,7 @@ class NewDelivery extends Component {
             fetch('/deliveries/new', {
                         method: 'POST',
                         headers: new Headers({'Content-Type':'application/json'}),
-                        
+                        credentials: 'include',
                         body: JSON.stringify(bodyJSON)
             // }).then(res => {
             //       return res.json();
@@ -198,6 +201,16 @@ class NewDelivery extends Component {
         return (
       
             <div className="container">
+
+                  {/* <form onSubmit={this.onSubmit}>
+            <input
+              placeholder="Enter a location"
+              ref={ref => (this.pickupAutocomplete = ref)}
+              type="text"
+            />
+
+            <input className type="submit" value="Go" />
+          </form> */}
 
                   {/* welcome header */}
                   <div className="py-5 text-center">
@@ -251,22 +264,18 @@ class NewDelivery extends Component {
                               <br />
                               <div className="mb-3">
                                     <label htmlFor="address">Pick-up Address</label>
-                                    <input type="text" className="form-control" id="address" placeholder="1234 Main St" onBlur={this.pickUpAddressChangeHandler} required />
+                                    <input className="form-control" placeholder="Enter a location" ref={ref => (this.pickupAutocomplete = ref)} type="text" />
                                     <div className="invalid-feedback">
                                     Please enter your pick-up address.
                                     </div>
                               </div>
 
                               <div className="row">
-                                    <div className="col-md-5 mb-3">
+                                    <div className="col-md-3 mb-3">
                                           <label htmlFor="country">Country</label>
-                                          <select className="custom-select d-block w-100" id="pickUpCountry" onChange={this.pickUpCountryChangeHandler} required>
-                                                <option value="">Choose...</option>
-                                                <option value="Singapore">Singapore</option>
-                                                <option value="Thailand">Thailand</option>
-                                          </select>
+                                          <input type="text" className="form-control" id="pickupCountry" value={this.state.pickUpCountry} required readOnly/>
                                           <div className="invalid-feedback">
-                                                Please select a valid country.
+                                                Country required.
                                           </div>
                                     </div>
                                     {/* <div className="col-md-4 mb-3">
@@ -281,7 +290,7 @@ class NewDelivery extends Component {
                                     </div> */}
                                     <div className="col-md-3 mb-3">
                                           <label htmlFor="zip">Zip</label>
-                                          <input type="text" className="form-control" id="zip" onBlur={this.pickUpZipChangeHandler} required />
+                                          <input type="text" className="form-control" id="zip" value={this.state.pickUpZip} required readOnly />
                                           <div className="invalid-feedback">
                                                 Zip code required.
                                           </div>
@@ -338,22 +347,18 @@ class NewDelivery extends Component {
                               <br />
                               <div className="mb-3">
                                     <label htmlFor="address">Delivery Address</label>
-                                    <input type="text" className="form-control" id="address" placeholder="1234 Main St" required onBlur={this.deliveryAddressChangeHandler} />
+                                    <input className="form-control" placeholder="Enter a location" ref={ref => (this.deliveryAutocomplete = ref)} type="text" />
                                     <div className="invalid-feedback">
                                     Please enter your delivery address.
                                     </div>
                               </div>
 
                               <div className="row">
-                                    <div className="col-md-5 mb-3">
+                                    <div className="col-md-3 mb-3">
                                           <label htmlFor="country">Country</label>
-                                          <select className="custom-select d-block w-100" id="country" required onChange={this.deliveryCountryChangeHandler}>
-                                                <option value="">Choose...</option>
-                                                <option>Singapore</option>
-                                                <option>Thailand</option>
-                                          </select>
+                                          <input type="text" className="form-control" id="deliveryCountry" placeholder="" required value={this.state.deliveryCountry} readOnly/>
                                           <div className="invalid-feedback">
-                                                Please select a valid country.
+                                                Country required.
                                           </div>
                                     </div>
                                     {/* <div className="col-md-4 mb-3">
@@ -368,7 +373,7 @@ class NewDelivery extends Component {
                                     </div> */}
                                     <div className="col-md-3 mb-3">
                                           <label htmlFor="zip">Zip</label>
-                                          <input type="text" className="form-control" id="zip" placeholder="" required onBlur={this.deliveryZipChangeHandler} />
+                                          <input type="text" className="form-control" id="zip" placeholder="" required value={this.state.deliveryZip} readOnly/>
                                           <div className="invalid-feedback">
                                                 Zip code required.
                                           </div>
@@ -523,4 +528,8 @@ class NewDelivery extends Component {
 //       apiKey: ('AIzaSyBzqaIAJy2NlzQqOu2FM-ts3oMxrGaQd38')
 //     })(NewDelivery);
 
-export default NewDelivery;
+// export default NewDelivery;
+
+export default GoogleApiWrapper({
+      apiKey: ('AIzaSyBzqaIAJy2NlzQqOu2FM-ts3oMxrGaQd38')
+    })(NewDelivery);

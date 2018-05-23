@@ -28,7 +28,11 @@ class AllDeliveries extends Component {
       };
 
       componentDidMount() {
-            fetch('/deliveries')
+            fetch('/deliveries', {
+                  method: 'GET',
+                  headers: new Headers({'Content-Type':'application/json'}),
+                  credentials: 'include'
+            })
             .then(
             response => {
                   if (response.status !== 200) {
@@ -104,9 +108,9 @@ class AllDeliveries extends Component {
                         <tr>
                               <th scope="row">{counter}</th>
                               <td>{item.delivery_number}</td>
-                              <td>{item.pickup_time}</td>
-                              <td>{item.delivery_time}</td>
-                              <td>{item.assigned_courier}</td>
+                              <td>{item.schedules_name}</td>
+                              <td>{item.schedules2_name}</td>
+                              <td>{item.name}</td>
                               <td>{item.status}</td>
                         </tr>
 

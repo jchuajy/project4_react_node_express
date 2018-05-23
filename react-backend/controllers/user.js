@@ -41,11 +41,12 @@ const createNewUser = (db) => {
                   } else if (queryResult.rowCount >= 1) {
                         
                         // respond with a json indicating success and token
-                        jwt.sign({user: queryResult[0]}, 'secretkey', (err, token) => {
+                        jwt.sign({userID: queryResult.rows[0].id}, 'secretkey', (err, token) => {
                               response.json({
                                     token: token,
                                     createdUser: true,
-                                    message: "Account created successfully!"
+                                    message: "Account created successfully!",
+                                    name: queryResult.rows[0].name
                               });
                         });
                         
@@ -95,11 +96,10 @@ const loginUser = (db) => {
                         console.log("controller check pass")
                         console.log(queryResult.rows[0])
                         // respond with a json containing token and login information
-                        jwt.sign({user: queryResult.rows[0].email}, 'secretkey', (err, token) => {
+                        jwt.sign({userID: queryResult.rows[0].id}, 'secretkey', (err, token) => {
                               response.json({
                                     token: token,
                                     name: queryResult.rows[0].name,
-                                    email: queryResult.rows[0].email,
                                     loginSuccess: true,
                                     message: "Login Successful!"
                               });

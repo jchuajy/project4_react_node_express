@@ -27,7 +27,7 @@ class Login extends Component {
       componentWillMount() {
 
             const { cookies } = this.props;
-      }
+      };
     
       emailChangeHandler(event){
             this.setState({formEmail:event.target.value});
@@ -56,12 +56,12 @@ class Login extends Component {
             fetch('/users/login', {
                         method: 'POST',
                         headers: new Headers({'Content-Type':'application/json'}),
-                        
+                        credentials: 'include',
                         body: JSON.stringify(bodyJSON)
             }).then(res => {
                   return res.json();
             }).then(data => {
-                  console.log(data)
+                  console.log("this is my data", data)
                   if (data.loginSuccess == true) {
                         cookies.set('token', data.token, { path: '/' });
                         this.setState({loginMessage: ""});

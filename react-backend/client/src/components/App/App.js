@@ -5,6 +5,7 @@ import Users from '../Users/Users';
 import NewDelivery from '../Deliveries/NewDelivery';
 import AllDeliveries from '../Deliveries/AllDeliveries';
 import UnassignedDeliveries from '../Deliveries/UnassignedDeliveries';
+import NewSchedule from '../Schedules/NewSchedule';
 
 import './App.css';
 import { Route, Link } from "react-router-dom";
@@ -92,6 +93,13 @@ class App extends Component {
           exact
           render={() => (
             <AllDeliveries />
+          )}
+        />
+        <Route
+          path='/schedules'
+          exact
+          render={() => (
+            <NewSchedule />
           )}
         />
         </div>

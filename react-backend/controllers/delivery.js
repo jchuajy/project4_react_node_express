@@ -37,6 +37,7 @@ const getAllDeliveries = (db) => {
             
             db.deliveryDB.getAllDeliveries(request, (error, queryResult) => {
                   if (queryResult.rowCount >= 1) {
+                        
                         response.json(queryResult.rows);
                   } else {
                         response.json({message: "There was a problem getting the information. Please try again!"});
