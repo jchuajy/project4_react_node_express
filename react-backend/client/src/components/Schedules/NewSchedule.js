@@ -5,10 +5,6 @@ class NewSchedule extends Component {
 
       constructor() {
             super();
-            // this.nameChangeHandler = this.nameChangeHandler.bind( this );
-            // this.emailChangeHandler = this.emailChangeHandler.bind( this );
-            // this.passwordChangeHandler = this.passwordChangeHandler.bind( this );
-            // this.passwordConfirmChangeHandler = this.passwordConfirmChangeHandler.bind( this );
             this.monthOptionHandler = this.monthOptionHandler.bind( this );
             this.dayOptionHandler = this.dayOptionHandler.bind( this );
             this.handleSubmit = this.handleSubmit.bind( this );
@@ -19,7 +15,7 @@ class NewSchedule extends Component {
                   currentDay: new Date().getDate(),
                   monthList: [],
                   dayList: [],
-                  timeList:['0800 - 1000 HRS', '1000 - 1200 HRS', '1200 - 1400 HRS', '1400 - 1600 HRS', '1600 - 1800 HRS']
+                  timeList:['0600 - 0700 HRS', '0700 - 0800 HRS', '0800 - 0900 HRS', '0900 - 1000 HRS', '1000 - 1100 HRS', '1100 - 1200 HRS', '1200 - 1300 HRS', '1300 - 1400 HRS', '1400 - 1500 HRS', '1500 - 1600 HRS', '1600 - 1700 HRS', '1700 - 1800 HRS', '1800 - 1900 HRS', '1900 - 2000 HRS', '2000 - 2100 HRS', '2100 - 2200 HRS']
                 };
       };
 

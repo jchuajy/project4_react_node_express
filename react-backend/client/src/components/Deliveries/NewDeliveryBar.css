@@ -1,0 +1,21 @@
+.barContainer {
+      width: 100%;
+      height: 12vh;
+      background-color:#08b7d6;
+      border-radius: 5px;
+      display: flex;
+      padding: 10px;
+      align-items: center;
+      justify-content: space-evenly;
+      margin: auto;
+}
+
+.longField {
+      width: 30%;
+      margin: 0 !important;
+}
+
+.shortField {
+      width: 10%;
+      margin: 0 !important;
+}

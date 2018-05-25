@@ -1,8 +1,78 @@
-.jumbotron {
+/* .jumbotron {
       margin-top: 20px;
       background-image: url('/igor-ovsyannykov-324720-unsplash.jpg');
       background-size: cover;
       background-color: black;
       color: white;
+} */
+
+.jumbotron {
+      background-image: url('/kira-auf-der-heide-475623-unsplash.jpg');
+      height: 90vh;
+      display: flex;
+      background-size: cover;
 }
 
+.splashHeader {
+      width: 100%;
+      padding: 20px;
+      margin: auto;
+      position: relative;
+}
+
+.splashHeader h1 {
+
+      color: white;
+      text-shadow: 2px 2px black;
+      font-size: 400%;
+      font-weight: bold;
+}
+
+.splashHeader p {
+
+      color: white;
+      text-shadow: 2px 2px black;
+}
+
+.deliveryBarPosDiv {
+
+      position: absolute;
+      width: 90%;
+      bottom: 10%;
+}
+
+.infoCards {
+
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      padding: 50px;
+}
+
+.card {
+
+      width: 16rem;
+}
+
+.card-img-top {
+
+      width: 70px;
+      margin: auto;
+      margin-top: 15px;
+}
+
+.homeDivider {
+
+      width: 100%;
+      height: 13vh;
+      background-color: #08b7d6;
+      padding: 20px;
+      display: flex;
+}
+
+.homeDivider h1 {
+
+      color: white;
+      margin: auto;
+      font-weight: bold;
+}

@@ -17,23 +17,11 @@ class App extends Component {
     super();
     this.state = {
                   currentUser: "",
-                  loginStatus: ""
+                  loginStatus: "",
+                  showModal: false
                   };
     // this.showUsers = this.showUsers.bind( this );
   };
-
-  // componentDidMount() {
-  //   fetch('/users')
-  //     .then(res => res.json())
-  //     .then(users => {  
-  //                       let returnArray = [];
-  //                       for (let i = 0; i < users.length; i++) {
-  //                         returnArray.push(users[i]["username"])
-  //                       }
-  //                       this.setState({users: returnArray})
-  //                     });
-                      
-  // };
 
   // sets state of current user
   setUser(user) {
@@ -46,21 +34,50 @@ class App extends Component {
     this.setState({loginStatus: status});
   };
 
+  showModal() {
+    if (this.state.showModal === true) {
+      return(
+        // modal
+         <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div className="modal-dialog modal-dialog-centered" role="document">
+           <div className="modal-content">
+                 <div className="modal-header">
+                   <h5 className="modal-title" id="exampleModalLabel">Our price is...</h5>
+                   <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                   </button>
+                   </div>
+                   <div className="modal-body" id="modalContents">
+                   </div>
+                   <div className="modal-footer">
+                   <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                   <button type="button" className="btn btn-primary">Save changes</button>
+                 </div>
+           </div>
+         </div>
+       </div>
+      )
+
+    } else {
+      
+      return
+    }
+    
+  }
 
 
 
   render() {
-    // const mapped = this.state.users.map(item => {
-    
-    //   return <li>{item}</li>
-    // })
+
     return (
       <div className="App">
+
+     
           {/* <ul>
             {mapped}
           </ul> */}
         <MainNavbar />
-        <div className="container">
+        <div>
         <Route 
           path='/users/'
           render={() => (
